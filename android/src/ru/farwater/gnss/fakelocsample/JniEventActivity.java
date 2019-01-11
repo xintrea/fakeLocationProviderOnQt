@@ -82,6 +82,11 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
     public void setupFakeLocationProvider() {
         Log.w(TAG, "Java: setupFakeLocationProvider start");
 
+        if(this==null) {
+            Log.w(TAG, "For JniEventActivity this is null");
+            return;
+        }
+
         // Создание экземпляра вышеописаного класса MockLocationProvider
         // в контексте данной Активности
         mock = new MockLocationProvider(LocationManager.GPS_PROVIDER, this);
