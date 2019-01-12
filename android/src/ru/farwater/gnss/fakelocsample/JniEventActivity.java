@@ -30,8 +30,19 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.w(TAG, "onCreate() called!");
+
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
         super.onCreate(savedInstanceState);
+
+        // Создание экземпляра вышеописаного класса MockLocationProvider
+        // в контексте данной Активности
+        // Log.w(TAG, "Before MockLocationProvider create");
+        // mock = new MockLocationProvider(LocationManager.GPS_PROVIDER, this);
+        // Log.w(TAG, "After MockLocationProvider create");
+
+        Log.w(TAG, "onCreate() success finished");
     }
 
     @Override
@@ -82,21 +93,9 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
     public void setupFakeLocationProvider() {
         Log.w(TAG, "Java: setupFakeLocationProvider start");
 
-        if(this==null) {
-            Log.w(TAG, "For JniEventActivity this is null");
-            return;
-        }
-
-        // Создание экземпляра вышеописаного класса MockLocationProvider
-        // в контексте данной Активности
-        mock = new MockLocationProvider(LocationManager.GPS_PROVIDER, this);
-        Log.w(TAG, "After new MockLocationProvider");
-
-        //Set test location
+        //Set start test location
         mock.pushLocation(45.0, 45.0);
         Log.w(TAG, "After mock.pushLocation");
-
-        Log.w(TAG, "Java: setupFakeLocationProvider stop");
     }
 
 
@@ -104,7 +103,6 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
     public void updateFakeLocationProvider() {
         Log.w(TAG, "Java: updateFakeLocationProvider");
 
-        /*
         locationShift=locationShift+0.1;
 
         double lat=45.0+locationShift;
@@ -114,6 +112,5 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
         mock.pushLocation(lat, lon);
 
         Log.w(TAG, "New coordinate: "+Double.toString(lat)+" "+Double.toString(lon));
-        */
     }
 }
