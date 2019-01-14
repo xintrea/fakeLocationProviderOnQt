@@ -32,15 +32,19 @@ public class MockLocationProvider {
 
   // Установка координат в фиктивном провайдере
   public void pushLocation(double lat, double lon) {
-    LocationManager lm = (LocationManager) ctx.getSystemService(
-      Context.LOCATION_SERVICE);
+    JniEventActivity.log("Java: pushLocation, before getSystemService");
+    LocationManager lm = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
+    JniEventActivity.log("Java: pushLocation, after getSystemService");
 
     Location mockLocation = new Location(providerName);
     mockLocation.setLatitude(lat);
     mockLocation.setLongitude(lon);
     mockLocation.setAltitude(0);
     mockLocation.setTime(System.currentTimeMillis());
+
+    JniEventActivity.log("Java: pushLocation, before setTestProviderLocation");
     lm.setTestProviderLocation(providerName, mockLocation);
+    JniEventActivity.log("Java: pushLocation, after setTestProviderLocation");
   }
 
   // Выключение фиктивного провайдера

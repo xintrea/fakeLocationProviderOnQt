@@ -28,6 +28,12 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
         m_instance = this;
     }
 
+
+    public static void log(String message) {
+        Log.w(TAG, message);
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.w(TAG, "onCreate() called!");
@@ -38,9 +44,9 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
 
         // Создание экземпляра вышеописаного класса MockLocationProvider
         // в контексте данной Активности
-        // Log.w(TAG, "Before MockLocationProvider create");
-        // mock = new MockLocationProvider(LocationManager.GPS_PROVIDER, this);
-        // Log.w(TAG, "After MockLocationProvider create");
+        Log.w(TAG, "Before MockLocationProvider create");
+        mock = new MockLocationProvider(LocationManager.GPS_PROVIDER, this);
+        Log.w(TAG, "After MockLocationProvider create");
 
         Log.w(TAG, "onCreate() success finished");
     }
