@@ -21,8 +21,8 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
 
     static String TAG = "JniEventActivity";
 
-    MockLocationProvider mock;
-    double locationShift=0;
+    static MockLocationProvider mock=null;
+    static double locationShift=0;
 
     public JniEventActivity() {
         m_instance = this;
@@ -36,7 +36,7 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.w(TAG, "onCreate() called!");
+        log("onCreate() called!");
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -44,9 +44,10 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
 
         // Создание экземпляра вышеописаного класса MockLocationProvider
         // в контексте данной Активности
-        Log.w(TAG, "Before MockLocationProvider create");
+        log("Before MockLocationProvider create");
         mock = new MockLocationProvider(LocationManager.GPS_PROVIDER, this);
-        Log.w(TAG, "After MockLocationProvider create");
+        log("Mock address: "+mock);
+        log("After MockLocationProvider create");
 
         Log.w(TAG, "onCreate() success finished");
     }
@@ -96,18 +97,19 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
 
 
     // Инициализация фиктивного провайдера
-    public void setupFakeLocationProvider() {
-        Log.w(TAG, "Java: setupFakeLocationProvider start");
+    public static void setupFakeLocationProvider() {
+        log("Java: setupFakeLocationProvider start");
+        log("Mock address: "+mock);
 
         //Set start test location
         mock.pushLocation(45.0, 45.0);
-        Log.w(TAG, "After mock.pushLocation");
+        log("After mock.pushLocation");
     }
 
 
     // Обновление значений координат в фиктивном провайдере
-    public void updateFakeLocationProvider() {
-        Log.w(TAG, "Java: updateFakeLocationProvider");
+    public static void updateFakeLocationProvider() {
+        log("Java: updateFakeLocationProvider");
 
         locationShift=locationShift+0.1;
 
@@ -117,6 +119,6 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
         //Set test location
         mock.pushLocation(lat, lon);
 
-        Log.w(TAG, "New coordinate: "+Double.toString(lat)+" "+Double.toString(lon));
+        log("New coordinate: "+Double.toString(lat)+" "+Double.toString(lon));
     }
 }

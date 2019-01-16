@@ -40,7 +40,7 @@ protected:
     #ifdef Q_OS_ANDROID
     KeepAwakeHelper keepAwakeHelper;
 
-    QAndroidJniObject *jniEventActivity;
+    // QAndroidJniObject *jniEventActivity;
     #endif
 };
 

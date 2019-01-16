@@ -3,6 +3,8 @@ package ru.farwater.gnss.fakelocsample;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
+import android.os.SystemClock;
 
 public class MockLocationProvider {
   String providerName;
@@ -40,7 +42,13 @@ public class MockLocationProvider {
     mockLocation.setLatitude(lat);
     mockLocation.setLongitude(lon);
     mockLocation.setAltitude(0);
+    mockLocation.setAccuracy(1);
     mockLocation.setTime(System.currentTimeMillis());
+
+    // Обязательно нужно выставить свойство et для определенных версий Android
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+        mockLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
+    }
 
     JniEventActivity.log("Java: pushLocation, before setTestProviderLocation");
     lm.setTestProviderLocation(providerName, mockLocation);

@@ -18,7 +18,7 @@ bool isApplicationCoreCreate=false;
 
 Core::Core(QObject *parent) : QObject(parent)
 {
-    jniEventActivity=new QAndroidJniObject("ru/farwater/gnss/fakelocsample/JniEventActivity");
+    // jniEventActivity=new QAndroidJniObject("ru/farwater/gnss/fakelocsample/JniEventActivity");
 
     isApplicationCoreCreate=true;
 }
@@ -109,7 +109,16 @@ void Core::setupFakeLocationProvider()
     qWarning() << "setupFakeLocationProvider from C++";
 
 #ifdef Q_OS_ANDROID
-    jniEventActivity->callMethod<void>("setupFakeLocationProvider");
+    // Вызов обычного, не статического метода
+    // Выяснено, что лучше работать со статическими методами, которые работают со
+    // статическими свойствами Java класса. Это позволяет просто обращаться
+    // к любому инстансу Java-класса, даже неспотря на то в каком треде объект выполняется
+    // jniEventActivity->callMethod<void>("setupFakeLocationProvider");
+
+    QAndroidJniObject::callStaticMethod<void>("ru/farwater/gnss/fakelocsample/JniEventActivity",
+                                              "setupFakeLocationProvider",
+                                              "()V");
+
 #endif
 }
 
@@ -119,6 +128,10 @@ void Core::updateFakeLocationProvider()
     qWarning() << "updateFakeLocationProvider from C++";
 
 #ifdef Q_OS_ANDROID
-    jniEventActivity->callMethod<void>("updateFakeLocationProvider");
+    // jniEventActivity->callMethod<void>("updateFakeLocationProvider");
+
+    QAndroidJniObject::callStaticMethod<void>("ru/farwater/gnss/fakelocsample/JniEventActivity",
+                                              "updateFakeLocationProvider",
+                                              "()V");
 #endif
 }
