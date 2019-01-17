@@ -8,6 +8,7 @@ package ru.farwater.gnss.fakelocsample;
 import android.util.Log;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.os.SystemClock;
 import android.content.Context;
 import android.media.AudioManager;
 import android.widget.Toast;
@@ -109,16 +110,29 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
 
     // Обновление значений координат в фиктивном провайдере
     public static void updateFakeLocationProvider() {
-        log("Java: updateFakeLocationProvider");
+        log("Java: updateFakeLocationProvider() start");
 
-        locationShift=locationShift+0.1;
+        for(int i=0; i<10000; i++) {
 
-        double lat=45.0+locationShift;
-        double lon=45.0+locationShift;
+            long delay=500; // Задержка в миллисекундах (1 мс = 1/1000 секунды)
+            long startTime=System.currentTimeMillis();
+            long currentTime=startTime;
+            do {
+                currentTime=System.currentTimeMillis();
+            } while(currentTime-startTime < delay);
 
-        //Set test location
-        mock.pushLocation(lat, lon);
 
-        log("New coordinate: "+Double.toString(lat)+" "+Double.toString(lon));
+            locationShift=locationShift+0.00001;
+
+            double lat=45.0+locationShift;
+            double lon=45.0+locationShift;
+
+            //Set test location
+            mock.pushLocation(lat, lon);
+
+            log("New coordinate: "+Double.toString(lat)+" "+Double.toString(lon));
+        }
+
+        log("Java: updateFakeLocationProvider() stop");
     }
 }
