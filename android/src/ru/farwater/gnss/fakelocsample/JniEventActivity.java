@@ -112,7 +112,7 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
     public static void updateFakeLocationProvider() {
         log("Java: updateFakeLocationProvider() start");
 
-        for(int i=0; i<10000; i++) {
+        // for(int i=0; i<10000; i++) {
 
             long delay=500; // Задержка в миллисекундах (1 мс = 1/1000 секунды)
             long startTime=System.currentTimeMillis();
@@ -131,7 +131,7 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
             mock.pushLocation(lat, lon);
 
             log("New coordinate: "+Double.toString(lat)+" "+Double.toString(lon));
-        }
+        // }
 
         log("Java: updateFakeLocationProvider() stop");
     }

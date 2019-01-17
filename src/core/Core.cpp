@@ -130,8 +130,10 @@ void Core::updateFakeLocationProvider()
 #ifdef Q_OS_ANDROID
     // jniEventActivity->callMethod<void>("updateFakeLocationProvider");
 
-    QAndroidJniObject::callStaticMethod<void>("ru/farwater/gnss/fakelocsample/JniEventActivity",
-                                              "updateFakeLocationProvider",
-                                              "()V");
+    for(int i=0; i<10000; i++) {
+        QAndroidJniObject::callStaticMethod<void>("ru/farwater/gnss/fakelocsample/JniEventActivity",
+                                                  "updateFakeLocationProvider",
+                                                  "()V");
+    }
 #endif
 }
