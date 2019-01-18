@@ -40,7 +40,6 @@ protected:
     void registryQmlComponents(QQmlApplicationEngine *iEngine);
 
     QTimer *timer;
-    int mode=0;
 
     #ifdef Q_OS_ANDROID
     KeepAwakeHelper keepAwakeHelper;

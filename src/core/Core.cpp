@@ -124,8 +124,6 @@ void Core::setupFakeLocationProvider()
                                               "()V");
 
 #endif
-
-    mode=1;
 }
 
 
@@ -133,18 +131,17 @@ void Core::updateFakeLocationProvider()
 {
     qWarning() << "updateFakeLocationProvider from C++";
 
-    mode=2;
+    for(int i=0; i<10000; i++) {
+
+        // jniEventActivity->callMethod<void>("updateFakeLocationProvider");
+        QAndroidJniObject::callStaticMethod<void>("ru/farwater/gnss/fakelocsample/JniEventActivity",
+                                                  "updateFakeLocationProvider",
+                                                  "()V");
+    }
 }
 
 
 void Core::updateByTimer()
 {
-    if(mode==2) {
-#ifdef Q_OS_ANDROID
-        // jniEventActivity->callMethod<void>("updateFakeLocationProvider");
-        QAndroidJniObject::callStaticMethod<void>("ru/farwater/gnss/fakelocsample/JniEventActivity",
-                                                  "updateFakeLocationProvider",
-                                                  "()V");
-#endif
-    }
+
 }

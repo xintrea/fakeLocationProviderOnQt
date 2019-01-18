@@ -33,7 +33,7 @@ public class MockLocationProvider {
   }
 
   // Установка координат в фиктивном провайдере
-  public void pushLocation(double lat, double lon) {
+  public void pushLocation(double lat, double lon, float bearing, float speed) {
     JniEventActivity.log("Java: pushLocation, before getSystemService");
     LocationManager lm = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
     JniEventActivity.log("Java: pushLocation, after getSystemService");
@@ -44,6 +44,8 @@ public class MockLocationProvider {
     mockLocation.setAltitude(0);
     mockLocation.setAccuracy(1);
     mockLocation.setTime(System.currentTimeMillis());
+    mockLocation.setBearing(bearing);
+    mockLocation.setSpeed(speed);
 
     // Обязательно нужно выставить свойство et для определенных версий Android
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {

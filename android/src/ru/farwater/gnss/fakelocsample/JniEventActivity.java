@@ -25,6 +25,12 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
     static MockLocationProvider mock=null;
     static double locationShift=0;
 
+    static float bearing=0F;
+    static float bearingDelta=0.5F;
+
+    static float speed=0F;
+    static float speedDelta=0.1F;
+
     public JniEventActivity() {
         m_instance = this;
     }
@@ -103,7 +109,7 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
         log("Mock address: "+mock);
 
         //Set start test location
-        mock.pushLocation(45.0, 45.0);
+        mock.pushLocation(45.0, 45.0, 0, 0);
         log("After mock.pushLocation");
     }
 
@@ -114,21 +120,34 @@ public class JniEventActivity extends org.qtproject.qt5.android.bindings.QtActiv
 
         // for(int i=0; i<10000; i++) {
 
-            long delay=500; // Задержка в миллисекундах (1 мс = 1/1000 секунды)
+            // Задержка в миллисекундах (1 мс = 1/1000 секунды)
+            long delay=500;
             long startTime=System.currentTimeMillis();
             long currentTime=startTime;
             do {
                 currentTime=System.currentTimeMillis();
             } while(currentTime-startTime < delay);
 
-
+            // Координаты
             locationShift=locationShift+0.00001;
-
             double lat=45.0+locationShift;
             double lon=45.0+locationShift;
 
+            // Поворот
+            if(bearing<0 || bearing>360) {
+                bearingDelta=-bearingDelta;
+            }
+            bearing=bearing+bearingDelta;
+
+            // Скорость
+            if(speed<0 || speed>50) {
+                speedDelta=-speedDelta;
+            }
+            speed=speed+speedDelta;
+
+
             //Set test location
-            mock.pushLocation(lat, lon);
+            mock.pushLocation(lat, lon, bearing, speed);
 
             log("New coordinate: "+Double.toString(lat)+" "+Double.toString(lon));
         // }
